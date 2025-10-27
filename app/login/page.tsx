@@ -128,7 +128,7 @@ export default function LoginPage() {
           <div className="mt-6 pt-6 border-t border-border dark:border-border-dark">
             <p className="text-sm text-center text-muted-foreground dark:text-muted-foreground">
               Demo Credentials:<br />
-              // <strong>Admin:</strong> admin@stylehub.com / admin123<br />
+              <strong>Admin:</strong> admin@panel.com / Administhebest123<br />
               <strong>Customer:</strong> customer@example.com / customer123
             </p>
           </div>
