@@ -7,11 +7,32 @@ import TopLikedPosts from '@/components/TopLikedPosts'
 export const revalidate = 60 // Revalidate every 60 seconds
 
 export default async function HomePage() {
-  const [products, categories, topPosts] = await Promise.all([
-    getProducts(),
-    getCategories(),
-    getTopLikedPosts(6)
-  ])
+  // Changed: Added try-catch for more robust error handling
+  let products = []
+  let categories = []
+  let topPosts = []
+
+  try {
+    const results = await Promise.allSettled([
+      getProducts(),
+      getCategories(),
+      getTopLikedPosts(6)
+    ])
+
+    // Changed: Handle each result individually
+    if (results[0].status === 'fulfilled') {
+      products = results[0].value
+    }
+    if (results[1].status === 'fulfilled') {
+      categories = results[1].value
+    }
+    if (results[2].status === 'fulfilled') {
+      topPosts = results[2].value
+    }
+  } catch (error) {
+    console.error('Error fetching homepage data:', error)
+    // Continue rendering with empty data rather than crashing
+  }
 
   // Get featured products (first 8)
   const featuredProducts = products.slice(0, 8)

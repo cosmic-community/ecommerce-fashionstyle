@@ -15,6 +15,12 @@ const nextConfig = {
   experimental: {
     typedRoutes: false,
   },
+  // Changed: Added logging for better debugging
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 }
 
 module.exports = nextConfig

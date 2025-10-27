@@ -25,7 +25,9 @@ export async function getProducts() {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to fetch products')
+    // Changed: More detailed error logging
+    console.error('Failed to fetch products:', error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
@@ -42,7 +44,9 @@ export async function getProduct(slug: string) {
     if (hasStatus(error) && error.status === 404) {
       return null
     }
-    throw new Error('Failed to fetch product')
+    // Changed: More detailed error logging
+    console.error(`Failed to fetch product ${slug}:`, error)
+    return null // Changed: Return null instead of throwing
   }
 }
 
@@ -62,7 +66,9 @@ export async function getProductsByCategory(categoryId: string) {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to fetch products by category')
+    // Changed: More detailed error logging
+    console.error(`Failed to fetch products by category ${categoryId}:`, error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
@@ -78,7 +84,9 @@ export async function getCategories() {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to fetch categories')
+    // Changed: More detailed error logging
+    console.error('Failed to fetch categories:', error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
@@ -100,7 +108,9 @@ export async function getPosts() {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to fetch posts')
+    // Changed: More detailed error logging
+    console.error('Failed to fetch posts:', error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
@@ -124,7 +134,9 @@ export async function getTopLikedPosts(limit: number = 10) {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to fetch top liked posts')
+    // Changed: More detailed error logging
+    console.error('Failed to fetch top liked posts:', error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
@@ -150,7 +162,9 @@ export async function getProductReviews(productId: string) {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to fetch reviews')
+    // Changed: More detailed error logging
+    console.error(`Failed to fetch reviews for product ${productId}:`, error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
@@ -177,7 +191,9 @@ export async function searchProducts(query: string) {
     if (hasStatus(error) && error.status === 404) {
       return []
     }
-    throw new Error('Failed to search products')
+    // Changed: More detailed error logging
+    console.error(`Failed to search products with query "${query}":`, error)
+    return [] // Changed: Return empty array instead of throwing
   }
 }
 
