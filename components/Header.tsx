@@ -1,13 +1,32 @@
 'use client'
 
 import Link from 'next/link'
-import { Menu, Search, ShoppingCart, Heart, User, Sun, Moon } from 'lucide-react'
-import { useState } from 'react'
+import { Menu, Search, ShoppingCart, Heart, User, Sun, Moon, LogOut, Shield } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import { useTheme } from '@/lib/theme'
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { theme, toggleTheme, mounted } = useTheme()
+  const router = useRouter()
+
+  useEffect(() => {
+    // Check if user is logged in
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    setUser(null)
+    setUserMenuOpen(false)
+    router.push('/')
+  }
 
   return (
     <header className="sticky top-0 z-40 bg-background dark:bg-background-dark border-b border-border dark:border-border-dark">
@@ -78,13 +97,73 @@ export default function Header() {
               </span>
             </Link>
 
-            <Link
-              href="/account"
-              className="p-2 rounded-lg hover:bg-muted dark:hover:bg-muted-dark transition-colors"
-              aria-label="Account"
-            >
-              <User className="w-5 h-5" />
-            </Link>
+            {/* User Menu */}
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="p-2 rounded-lg hover:bg-muted dark:hover:bg-muted-dark transition-colors"
+                aria-label="Account"
+              >
+                <User className="w-5 h-5" />
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-border dark:border-border-dark py-2">
+                  {user ? (
+                    <>
+                      <div className="px-4 py-2 border-b border-border dark:border-border-dark">
+                        <p className="font-semibold">{user.name}</p>
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                      {user.role === 'Admin' && (
+                        <Link
+                          href="/admin"
+                          className="flex items-center gap-2 px-4 py-2 hover:bg-muted dark:hover:bg-muted-dark transition-colors"
+                          onClick={() => setUserMenuOpen(false)}
+                        >
+                          <Shield className="w-4 h-4" />
+                          Admin Panel
+                        </Link>
+                      )}
+                      <Link
+                        href="/account"
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-muted dark:hover:bg-muted-dark transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <User className="w-4 h-4" />
+                        My Account
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 w-full px-4 py-2 hover:bg-muted dark:hover:bg-muted-dark transition-colors text-left text-red-600 dark:text-red-400"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        className="block px-4 py-2 hover:bg-muted dark:hover:bg-muted-dark transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/register"
+                        className="block px-4 py-2 hover:bg-muted dark:hover:bg-muted-dark transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Register
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Mobile menu button */}
             <button
