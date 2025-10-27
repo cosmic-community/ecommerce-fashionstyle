@@ -25,7 +25,7 @@ export async function GET() {
     // Calculate revenue
     let revenue = 0
     if (ordersRes.status === 'fulfilled') {
-      revenue = ordersRes.value.objects.reduce((sum, order) => {
+      revenue = ordersRes.value.objects.reduce((sum: number, order: any) => {
         return sum + (order.metadata?.total_amount || 0)
       }, 0)
     }
