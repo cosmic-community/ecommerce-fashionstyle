@@ -1,5 +1,6 @@
 import { getProductsByCategory } from '@/lib/cosmic'
 import ProductGrid from './ProductGrid'
+import { Product } from '@/types'
 
 interface RelatedProductsProps {
   categoryId?: string
@@ -13,7 +14,7 @@ export default async function RelatedProducts({ categoryId, currentProductId }: 
 
   const products = await getProductsByCategory(categoryId)
   const relatedProducts = products
-    .filter((p) => p.id !== currentProductId)
+    .filter((p: Product) => p.id !== currentProductId)
     .slice(0, 4)
 
   if (relatedProducts.length === 0) {

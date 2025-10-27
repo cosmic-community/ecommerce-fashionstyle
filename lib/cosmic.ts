@@ -1,4 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
+import { Product, Post, Review } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -90,7 +91,7 @@ export async function getPosts() {
       .depth(1)
     
     // Manual sorting by created_date (newest first)
-    return response.objects.sort((a, b) => {
+    return response.objects.sort((a: Post, b: Post) => {
       const dateA = new Date(a.metadata?.created_date || '').getTime()
       const dateB = new Date(b.metadata?.created_date || '').getTime()
       return dateB - dateA
@@ -113,7 +114,7 @@ export async function getTopLikedPosts(limit: number = 10) {
     
     // Manual sorting by likes_count (descending)
     return response.objects
-      .sort((a, b) => {
+      .sort((a: Post, b: Post) => {
         const likesA = a.metadata?.likes_count || 0
         const likesB = b.metadata?.likes_count || 0
         return likesB - likesA
@@ -140,7 +141,7 @@ export async function getProductReviews(productId: string) {
       .depth(1)
     
     // Manual sorting by created_date (newest first)
-    return response.objects.sort((a, b) => {
+    return response.objects.sort((a: Review, b: Review) => {
       const dateA = new Date(a.metadata?.created_date || '').getTime()
       const dateB = new Date(b.metadata?.created_date || '').getTime()
       return dateB - dateA
@@ -163,7 +164,7 @@ export async function searchProducts(query: string) {
     
     // Client-side filtering for search
     const searchTerm = query.toLowerCase()
-    return response.objects.filter(product => {
+    return response.objects.filter((product: Product) => {
       const title = product.title.toLowerCase()
       const description = product.metadata?.description?.toLowerCase() || ''
       const category = product.metadata?.category?.title?.toLowerCase() || ''
@@ -181,7 +182,7 @@ export async function searchProducts(query: string) {
 }
 
 // Calculate discounted price for a product
-export function calculateDiscountedPrice(product: any) {
+export function calculateDiscountedPrice(product: Product) {
   const now = new Date()
   const discount = product.metadata?.discount
   

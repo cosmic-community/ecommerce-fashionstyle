@@ -1,6 +1,7 @@
 import { getTopLikedPosts } from '@/lib/cosmic'
 import PostCard from '@/components/PostCard'
 import { TrendingUp } from 'lucide-react'
+import { Post } from '@/types'
 
 export const revalidate = 60
 
@@ -28,7 +29,7 @@ export default async function TopLikedPage() {
               </p>
             </div>
           ) : (
-            posts.map((post, index) => (
+            posts.map((post: Post, index: number) => (
               <div key={post.id} className="relative">
                 <div className="absolute -left-12 top-8 hidden lg:block">
                   <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">

@@ -1,6 +1,7 @@
 import { getPosts } from '@/lib/cosmic'
 import PostCard from '@/components/PostCard'
 import CreatePostButton from '@/components/CreatePostButton'
+import { Post } from '@/types'
 
 export const revalidate = 30
 
@@ -28,7 +29,7 @@ export default async function FeedPage() {
               </p>
             </div>
           ) : (
-            posts.map((post) => (
+            posts.map((post: Post) => (
               <PostCard key={post.id} post={post} />
             ))
           )}

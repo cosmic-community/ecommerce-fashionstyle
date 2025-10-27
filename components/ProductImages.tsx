@@ -24,7 +24,7 @@ export default function ProductImages({ images }: ProductImagesProps) {
     <div className="space-y-4">
       <div className="aspect-square bg-muted dark:bg-muted-dark rounded-lg overflow-hidden">
         <img
-          src={`${images[selectedImage].imgix_url}?w=1200&h=1200&fit=crop&auto=format,compress`}
+          src={`${images[selectedImage]?.imgix_url ?? ''}?w=1200&h=1200&fit=crop&auto=format,compress`}
           alt="Product image"
           className="w-full h-full object-cover"
           width={600}
