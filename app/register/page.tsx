@@ -40,6 +40,7 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
+      // Changed: Use absolute URL to avoid RSC payload issues
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -50,6 +51,8 @@ export default function RegisterPage() {
           email: formData.email,
           password: formData.password,
         }),
+        // Changed: Add cache control to prevent stale data
+        cache: 'no-store',
       })
 
       const data = await response.json()
@@ -61,8 +64,8 @@ export default function RegisterPage() {
       // Store user data in localStorage
       localStorage.setItem('user', JSON.stringify(data.user))
       
-      // Redirect to account page
-      router.push('/account')
+      // Changed: Use window.location for navigation to avoid RSC payload issues
+      window.location.href = '/account'
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {

@@ -21,8 +21,21 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-  // Added: Ensure proper static generation for all pages
-  output: 'standalone',
+  // Changed: Use default runtime instead of standalone to fix RSC payload issues
+  // Changed: Add proper dynamic route handling
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'x-middleware-cache',
+            value: 'no-cache',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

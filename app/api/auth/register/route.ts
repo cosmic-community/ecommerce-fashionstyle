@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cosmic } from '@/lib/cosmic'
 
+// Changed: Add runtime config to ensure proper edge handling
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const { name, email, password } = await request.json()
