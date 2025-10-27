@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { Heart } from 'lucide-react'
 
+// Add revalidation to prevent stale static generation issues
+export const revalidate = 60
+
 export default function WishlistPage() {
   // In a real app, this would fetch wishlist items from state management or API
   const wishlistItems: any[] = []

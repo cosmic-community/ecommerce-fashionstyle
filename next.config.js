@@ -21,6 +21,8 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  // Added: Ensure proper static generation for all pages
+  output: 'standalone',
 }
 
 module.exports = nextConfig
