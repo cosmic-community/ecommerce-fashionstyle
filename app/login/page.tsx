@@ -23,6 +23,8 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        // Changed: Add cache control for consistency
+        cache: 'no-store',
       })
 
       const data = await response.json()
@@ -34,11 +36,12 @@ export default function LoginPage() {
       // Store user data in localStorage
       localStorage.setItem('user', JSON.stringify(data.user))
       
+      // Changed: Use window.location for navigation consistency with register
       // Redirect based on role
       if (data.user.role === 'Admin') {
-        router.push('/admin')
+        window.location.href = '/admin'
       } else {
-        router.push('/account')
+        window.location.href = '/account'
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')

@@ -5,19 +5,25 @@ import { Menu, Search, ShoppingCart, Heart, User, Sun, Moon, LogOut, Shield } fr
 import { useState, useEffect } from 'react'
 import { useTheme } from '@/lib/theme'
 import { useRouter } from 'next/navigation'
+import { UserData } from '@/types'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<UserData | null>(null)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { theme, toggleTheme, mounted } = useTheme()
   const router = useRouter()
 
   useEffect(() => {
-    // Check if user is logged in
+    // Changed: Load user data with proper typing
     const userData = localStorage.getItem('user')
     if (userData) {
-      setUser(JSON.parse(userData))
+      try {
+        setUser(JSON.parse(userData) as UserData)
+      } catch (error) {
+        console.error('Error parsing user data:', error)
+        localStorage.removeItem('user')
+      }
     }
   }, [])
 
@@ -25,7 +31,8 @@ export default function Header() {
     localStorage.removeItem('user')
     setUser(null)
     setUserMenuOpen(false)
-    router.push('/')
+    // Changed: Use window.location for consistency
+    window.location.href = '/'
   }
 
   return (

@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cosmic } from '@/lib/cosmic'
 
+// Changed: Add runtime config for consistency with register route
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 // Simple error helper
 function hasStatus(error: unknown): error is { status: number } {
   return typeof error === 'object' && error !== null && 'status' in error
@@ -39,6 +43,14 @@ export async function POST(request: NextRequest) {
       throw error
     }
 
+    // Changed: Add null check for user
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      )
+    }
+
     // In a real application, you would verify the password hash
     // For demo purposes, we're doing a simple comparison
     // NEVER do this in production - use bcrypt or similar
@@ -50,7 +62,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Return user data (excluding password)
+    // Changed: Return complete user data with proper structure
     return NextResponse.json({
       user: {
         id: user.id,

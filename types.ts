@@ -99,12 +99,25 @@ export interface User extends CosmicObject {
   metadata: {
     email: string
     name?: string
+    password?: string
     role: UserRole
     avatar?: {
       url: string
       imgix_url: string
     }
     created_date: string
+  }
+}
+
+// Changed: Added client-side user data interface for localStorage
+export interface UserData {
+  id: string
+  name: string
+  email: string
+  role: UserRole
+  avatar?: {
+    url: string
+    imgix_url: string
   }
 }
 
